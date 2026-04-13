@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: neighbor-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: neighbor_help
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    # 解决部分客户端连接 MySQL 8 的身份验证问题
+    command: --default-authentication-plugin=mysql_native_password
+
+  redis:
+    image: redis:7.0-alpine
+    container_name: neighbor-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis-data:/data
+    # 开启 AOF 持久化，防止重启丢数据
+    command: redis-server --appendonly yes

@@ -1,0 +1,53 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Mac ###
+.DS_Store
+
+### Logs ###
+logs/
+*.log
+
+### Application ###
+# 核心配置文件：必须忽略，防止真实密码泄露
+application.yml
+application-local.yml
+application-dev.yml
+application-prod.yml
+
+# 环境变量文件（前端项目使用）
+.env
+.env.local
+.env.development
+.env.production

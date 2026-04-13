@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:neighborhelp_test;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
+    username: sa
+    password:
+  data:
+    redis:
+      # 测试中会通过 @MockBean 替换 StringRedisTemplate，避免真实连接
+      host: localhost
+      port: 6379
+
+jwt:
+  secret: test-jwt-secret-please-change
+  expiration: 604800000
+  refresh-expiration: 2592000000
+
+logging:
+  level:
+    root: WARN

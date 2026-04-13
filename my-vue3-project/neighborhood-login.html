@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邻里帮帮 - 登录</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFE0B2 50%, #FFCC80 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 背景装饰 */
+        .bg-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 193, 7, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .bg-circle:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bg-circle:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .bg-circle:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: 30%;
+            right: 30%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* 主容器 */
+        .container {
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Logo区域 */
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: slideInDown 0.8s ease-out;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #8D6E63;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #8D6E63, #A1887F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-subtitle {
+            font-size: 1rem;
+            color: #8D6E63;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        /* 登录卡片 */
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 0 0 1px rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            animation: slideInUp 0.8s ease-out 0.2s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FF8F00, #FFB74D, #FFCC80);
+        }
+
+        /* 切换标签 */
+        .tab-switcher {
+            display: flex;
+            background: #F5F5F5;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            color: #8D6E63;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #FF8F00;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn:hover:not(.active) {
+            color: #FF8F00;
+            background: rgba(255, 143, 0, 0.1);
+        }
+
+        /* 表单切换 */
+        .auth-form {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 验证码按钮 */
+        .verify-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #FF8F00;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 3;
+        }
+
+        .verify-btn:hover {
+            background: #FF6F00;
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .verify-btn:disabled {
+            background: #CCC;
+            cursor: not-allowed;
+            transform: translateY(-50%);
+        }
+
+        /* 验证码输入框特殊样式 */
+        #verificationCode {
+            padding-right: 100px !important;
+        }
+
+        /* 输入框样式 */
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-field {
+            width: 100%;
+            height: 55px;
+            padding: 0 20px 0 50px;
+            border: 2px solid #E0E0E0;
+            border-radius: 15px;
+            font-size: 16px;
+            color: #333;
+            background: #FAFAFA;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: #FF8F00;
+            background: #FFF;
+            box-shadow: 0 0 0 3px rgba(255, 143, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .input-field::placeholder {
+            color: #999;
+            font-weight: 400;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8D6E63;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus + .input-icon {
+            color: #FF8F00;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* 登录按钮 */
+        .login-btn {
+            width: 100%;
+            height: 55px;
+            background: linear-gradient(135deg, #8D6E63, #A1887F);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(141, 110, 99, 0.3);
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(135deg, #6D4C41, #8D6E63);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(141, 110, 99, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        /* 协议文字 */
+        .agreement-text {
+            text-align: center;
+            font-size: 14px;
+            color: #8D6E63;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        .agreement-link {
+            color: #FF8F00;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .agreement-link:hover {
+            color: #FF6F00;
+            text-decoration: underline;
+        }
+
+        /* 底部插画 */
+        .bottom-illustration {
+            margin-top: 50px;
+            text-align: center;
+            animation: slideInUp 0.8s ease-out 0.4s both;
+        }
+
+        .illustration-svg {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+        }
+
+        /* 动画效果 */
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                max-width: 350px;
+                padding: 0 20px;
+            }
+
+            .logo {
+                font-size: 2.2rem;
+            }
+
+            .login-card {
+                padding: 30px 25px;
+            }
+
+            .input-field {
+                height: 50px;
+                font-size: 16px;
+            }
+
+            .login-btn {
+                height: 50px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                max-width: 320px;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .login-card {
+                padding: 25px 20px;
+            }
+        }
+
+        /* 加载状态 */
+        .login-btn.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .login-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 错误状态 */
+        .input-field.error {
+            border-color: #F44336;
+            background: #FFEBEE;
+        }
+
+        .error-message {
+            color: #F44336;
+            font-size: 12px;
+            margin-top: 5px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景装饰 -->
+    <div class="bg-decoration">
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+    </div>
+
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- Logo区域 -->
+        <div class="logo-section">
+            <div class="logo">邻里帮帮</div>
+            <div class="logo-subtitle">让邻里更温暖，让社区更美好</div>
+        </div>
+
+        <!-- 登录/注册卡片 -->
+        <div class="login-card">
+            <!-- 切换标签 -->
+            <div class="tab-switcher">
+                <button class="tab-btn active" id="loginTab" onclick="switchTab('login')">登录</button>
+                <button class="tab-btn" id="registerTab" onclick="switchTab('register')">注册</button>
+            </div>
+
+            <!-- 登录表单 -->
+            <form id="loginForm" class="auth-form active">
+                <!-- 用户名输入框 -->
+                <div class="input-group">
+                    <input type="text" class="input-field" id="loginUsername" placeholder="用户名/手机号" required>
+                    <i class="fas fa-user input-icon"></i>
+                    <div class="error-message" id="loginUsernameError"></div>
+                </div>
+
+                <!-- 密码输入框 -->
+                <div class="input-group">
+                    <input type="password" class="input-field" id="loginPassword" placeholder="密码" required>
+                    <i class="fas fa-lock input-icon"></i>
+                    <div class="error-message" id="loginPasswordError"></div>
+                </div>
+
+                <!-- 登录按钮 -->
+                <button type="submit" class="login-btn" id="loginBtn">
+                    登录
+                </button>
+
+                <!-- 协议文字 -->
+                <div class="agreement-text">
+                    登录即同意<a href="#" class="agreement-link" onclick="showAgreement()">用户协议</a>和<a href="#" class="agreement-link" onclick="showPrivacy()">隐私政策</a>
+                </div>
+            </form>
+
+            <!-- 注册表单 -->
+            <form id="registerForm" class="auth-form">
+                <!-- 用户名输入框 -->
+                <div class="input-group">
+                    <input type="text" class="input-field" id="registerUsername" placeholder="用户名" required>
+                    <i class="fas fa-user input-icon"></i>
+                    <div class="error-message" id="registerUsernameError"></div>
+                </div>
+
+                <!-- 手机号输入框 -->
+                <div class="input-group">
+                    <input type="tel" class="input-field" id="registerPhone" placeholder="手机号" required>
+                    <i class="fas fa-phone input-icon"></i>
+                    <div class="error-message" id="registerPhoneError"></div>
+                </div>
+
+                <!-- 密码输入框 -->
+                <div class="input-group">
+                    <input type="password" class="input-field" id="registerPassword" placeholder="密码" required>
+                    <i class="fas fa-lock input-icon"></i>
+                    <div class="error-message" id="registerPasswordError"></div>
+                </div>
+
+                <!-- 确认密码输入框 -->
+                <div class="input-group">
+                    <input type="password" class="input-field" id="confirmPassword" placeholder="确认密码" required>
+                    <i class="fas fa-lock input-icon"></i>
+                    <div class="error-message" id="confirmPasswordError"></div>
+                </div>
+
+                <!-- 验证码输入框 -->
+                <div class="input-group">
+                    <input type="text" class="input-field" id="verificationCode" placeholder="验证码" required>
+                    <i class="fas fa-shield-alt input-icon"></i>
+                    <button type="button" class="verify-btn" id="verifyBtn" onclick="sendVerificationCode()">获取验证码</button>
+                    <div class="error-message" id="verificationCodeError"></div>
+                </div>
+
+                <!-- 注册按钮 -->
+                <button type="submit" class="login-btn" id="registerBtn">
+                    注册
+                </button>
+
+                <!-- 协议文字 -->
+                <div class="agreement-text">
+                    注册即同意<a href="#" class="agreement-link" onclick="showAgreement()">用户协议</a>和<a href="#" class="agreement-link" onclick="showPrivacy()">隐私政策</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- 底部插画 -->
+        <div class="bottom-illustration">
+            <svg class="illustration-svg" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
+                <!-- 背景 -->
+                <defs>
+                    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FFF8E1;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#FFE0B2;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="houseGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FFB74D;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#FF8F00;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="treeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#8BC34A;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#689F38;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                
+                <!-- 天空背景 -->
+                <rect width="300" height="120" fill="url(#skyGradient)"/>
+                
+                <!-- 房屋1 -->
+                <rect x="50" y="60" width="40" height="40" fill="url(#houseGradient)" rx="2"/>
+                <polygon points="45,60 70,45 95,60" fill="#FF6F00"/>
+                <rect x="60" y="75" width="8" height="15" fill="#8D6E63"/>
+                <rect x="75" y="70" width="6" height="6" fill="#FFE0B2"/>
+                
+                <!-- 房屋2 -->
+                <rect x="120" y="55" width="35" height="45" fill="url(#houseGradient)" rx="2"/>
+                <polygon points="115,55 137.5,40 160,55" fill="#FF6F00"/>
+                <rect x="130" y="70" width="6" height="12" fill="#8D6E63"/>
+                <rect x="140" y="65" width="5" height="5" fill="#FFE0B2"/>
+                
+                <!-- 房屋3 -->
+                <rect x="180" y="65" width="38" height="35" fill="url(#houseGradient)" rx="2"/>
+                <polygon points="175,65 199,50 223,65" fill="#FF6F00"/>
+                <rect x="190" y="80" width="7" height="12" fill="#8D6E63"/>
+                <rect x="200" y="75" width="6" height="6" fill="#FFE0B2"/>
+                
+                <!-- 树木 -->
+                <ellipse cx="30" cy="85" rx="12" ry="15" fill="url(#treeGradient)"/>
+                <rect x="28" y="85" width="4" height="15" fill="#8D6E63"/>
+                
+                <ellipse cx="100" cy="80" rx="10" ry="12" fill="url(#treeGradient)"/>
+                <rect x="98" y="80" width="4" height="12" fill="#8D6E63"/>
+                
+                <ellipse cx="250" cy="90" rx="15" ry="18" fill="url(#treeGradient)"/>
+                <rect x="248" y="90" width="4" height="18" fill="#8D6E63"/>
+                
+                <!-- 人物 -->
+                <circle cx="80" cy="95" r="3" fill="#FFB74D"/>
+                <rect x="78" y="98" width="4" height="8" fill="#FF8F00"/>
+                <rect x="77" y="106" width="6" height="4" fill="#8D6E63"/>
+                
+                <circle cx="150" cy="92" r="3" fill="#FFB74D"/>
+                <rect x="148" y="95" width="4" height="8" fill="#FF8F00"/>
+                <rect x="147" y="103" width="6" height="4" fill="#8D6E63"/>
+                
+                <circle cx="210" cy="98" r="3" fill="#FFB74D"/>
+                <rect x="208" y="101" width="4" height="8" fill="#FF8F00"/>
+                <rect x="207" y="109" width="6" height="4" fill="#8D6E63"/>
+                
+                <!-- 云朵 -->
+                <ellipse cx="60" cy="25" rx="15" ry="8" fill="rgba(255,255,255,0.8)"/>
+                <ellipse cx="70" cy="25" rx="12" ry="6" fill="rgba(255,255,255,0.8)"/>
+                <ellipse cx="50" cy="25" rx="10" ry="5" fill="rgba(255,255,255,0.8)"/>
+                
+                <ellipse cx="200" cy="20" rx="18" ry="10" fill="rgba(255,255,255,0.8)"/>
+                <ellipse cx="215" cy="20" rx="15" ry="8" fill="rgba(255,255,255,0.8)"/>
+                <ellipse cx="185" cy="20" rx="12" ry="6" fill="rgba(255,255,255,0.8)"/>
+                
+                <!-- 太阳 -->
+                <circle cx="250" cy="25" r="12" fill="#FFD54F"/>
+                <line x1="250" y1="8" x2="250" y2="4" stroke="#FFD54F" stroke-width="2"/>
+                <line x1="250" y1="42" x2="250" y2="46" stroke="#FFD54F" stroke-width="2"/>
+                <line x1="233" y1="25" x2="229" y2="25" stroke="#FFD54F" stroke-width="2"/>
+                <line x1="267" y1="25" x2="271" y2="25" stroke="#FFD54F" stroke-width="2"/>
+                <line x1="240" y1="10" x2="237" y2="7" stroke="#FFD54F" stroke-width="2"/>
+                <line x1="260" y1="10" x2="263" y2="7" stroke="#FFD54F" stroke-width="2"/>
+                <line x1="240" y1="40" x2="237" y2="43" stroke="#FFD54F" stroke-width="2"/>
+                <line x1="260" y1="40" x2="263" y2="43" stroke="#FFD54F" stroke-width="2"/>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        let currentTab = 'login';
+        let countdownTimer = null;
+
+        // 切换标签
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // 更新标签状态
+            document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+            document.getElementById('registerTab').classList.toggle('active', tab === 'register');
+            
+            // 更新表单显示
+            document.getElementById('loginForm').classList.toggle('active', tab === 'login');
+            document.getElementById('registerForm').classList.toggle('active', tab === 'register');
+            
+            // 清除所有错误状态
+            clearAllErrors();
+        }
+
+        // 清除所有错误状态
+        function clearAllErrors() {
+            document.querySelectorAll('.input-field').forEach(field => {
+                field.classList.remove('error');
+            });
+            document.querySelectorAll('.error-message').forEach(msg => {
+                msg.textContent = '';
+            });
+        }
+
+        // 登录表单验证
+        function validateLoginForm() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            let isValid = true;
+
+            clearAllErrors();
+
+            // 验证用户名
+            if (!username) {
+                document.getElementById('loginUsername').classList.add('error');
+                document.getElementById('loginUsernameError').textContent = '请输入用户名或手机号';
+                isValid = false;
+            } else if (username.length < 3) {
+                document.getElementById('loginUsername').classList.add('error');
+                document.getElementById('loginUsernameError').textContent = '用户名至少3个字符';
+                isValid = false;
+            }
+
+            // 验证密码
+            if (!password) {
+                document.getElementById('loginPassword').classList.add('error');
+                document.getElementById('loginPasswordError').textContent = '请输入密码';
+                isValid = false;
+            } else if (password.length < 6) {
+                document.getElementById('loginPassword').classList.add('error');
+                document.getElementById('loginPasswordError').textContent = '密码至少6个字符';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // 注册表单验证
+        function validateRegisterForm() {
+            const username = document.getElementById('registerUsername').value.trim();
+            const phone = document.getElementById('registerPhone').value.trim();
+            const password = document.getElementById('registerPassword').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+            const verificationCode = document.getElementById('verificationCode').value.trim();
+            let isValid = true;
+
+            clearAllErrors();
+
+            // 验证用户名
+            if (!username) {
+                document.getElementById('registerUsername').classList.add('error');
+                document.getElementById('registerUsernameError').textContent = '请输入用户名';
+                isValid = false;
+            } else if (username.length < 3) {
+                document.getElementById('registerUsername').classList.add('error');
+                document.getElementById('registerUsernameError').textContent = '用户名至少3个字符';
+                isValid = false;
+            } else if (!/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(username)) {
+                document.getElementById('registerUsername').classList.add('error');
+                document.getElementById('registerUsernameError').textContent = '用户名只能包含字母、数字、下划线和中文';
+                isValid = false;
+            }
+
+            // 验证手机号
+            if (!phone) {
+                document.getElementById('registerPhone').classList.add('error');
+                document.getElementById('registerPhoneError').textContent = '请输入手机号';
+                isValid = false;
+            } else if (!/^1[3-9]\d{9}$/.test(phone)) {
+                document.getElementById('registerPhone').classList.add('error');
+                document.getElementById('registerPhoneError').textContent = '请输入正确的手机号';
+                isValid = false;
+            }
+
+            // 验证密码
+            if (!password) {
+                document.getElementById('registerPassword').classList.add('error');
+                document.getElementById('registerPasswordError').textContent = '请输入密码';
+                isValid = false;
+            } else if (password.length < 6) {
+                document.getElementById('registerPassword').classList.add('error');
+                document.getElementById('registerPasswordError').textContent = '密码至少6个字符';
+                isValid = false;
+            } else if (!/(?=.*[a-zA-Z])(?=.*\d)/.test(password)) {
+                document.getElementById('registerPassword').classList.add('error');
+                document.getElementById('registerPasswordError').textContent = '密码必须包含字母和数字';
+                isValid = false;
+            }
+
+            // 验证确认密码
+            if (!confirmPassword) {
+                document.getElementById('confirmPassword').classList.add('error');
+                document.getElementById('confirmPasswordError').textContent = '请确认密码';
+                isValid = false;
+            } else if (password !== confirmPassword) {
+                document.getElementById('confirmPassword').classList.add('error');
+                document.getElementById('confirmPasswordError').textContent = '两次输入的密码不一致';
+                isValid = false;
+            }
+
+            // 验证验证码
+            if (!verificationCode) {
+                document.getElementById('verificationCode').classList.add('error');
+                document.getElementById('verificationCodeError').textContent = '请输入验证码';
+                isValid = false;
+            } else if (!/^\d{6}$/.test(verificationCode)) {
+                document.getElementById('verificationCode').classList.add('error');
+                document.getElementById('verificationCodeError').textContent = '验证码为6位数字';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // 登录处理
+        function handleLogin() {
+            if (!validateLoginForm()) {
+                return;
+            }
+
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.classList.add('loading');
+            loginBtn.textContent = '';
+
+            // 模拟登录过程
+            setTimeout(() => {
+                loginBtn.classList.remove('loading');
+                loginBtn.textContent = '登录';
+                
+                // 这里可以添加实际的登录逻辑
+                alert('登录成功！欢迎来到邻里帮帮社区！');
+            }, 2000);
+        }
+
+        // 注册处理
+        function handleRegister() {
+            if (!validateRegisterForm()) {
+                return;
+            }
+
+            const registerBtn = document.getElementById('registerBtn');
+            registerBtn.classList.add('loading');
+            registerBtn.textContent = '';
+
+            // 模拟注册过程
+            setTimeout(() => {
+                registerBtn.classList.remove('loading');
+                registerBtn.textContent = '注册';
+                
+                // 这里可以添加实际的注册逻辑
+                alert('注册成功！欢迎加入邻里帮帮社区！');
+                
+                // 注册成功后切换到登录页面
+                switchTab('login');
+            }, 2000);
+        }
+
+        // 发送验证码
+        function sendVerificationCode() {
+            const phone = document.getElementById('registerPhone').value.trim();
+            const verifyBtn = document.getElementById('verifyBtn');
+            
+            if (!phone) {
+                document.getElementById('registerPhone').classList.add('error');
+                document.getElementById('registerPhoneError').textContent = '请先输入手机号';
+                return;
+            }
+            
+            if (!/^1[3-9]\d{9}$/.test(phone)) {
+                document.getElementById('registerPhone').classList.add('error');
+                document.getElementById('registerPhoneError').textContent = '请输入正确的手机号';
+                return;
+            }
+
+            // 清除错误状态
+            document.getElementById('registerPhone').classList.remove('error');
+            document.getElementById('registerPhoneError').textContent = '';
+
+            // 开始倒计时
+            let countdown = 60;
+            verifyBtn.disabled = true;
+            verifyBtn.textContent = `${countdown}秒后重发`;
+
+            countdownTimer = setInterval(() => {
+                countdown--;
+                verifyBtn.textContent = `${countdown}秒后重发`;
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownTimer);
+                    verifyBtn.disabled = false;
+                    verifyBtn.textContent = '获取验证码';
+                }
+            }, 1000);
+
+            // 模拟发送验证码
+            alert(`验证码已发送到 ${phone}，请注意查收！\n\n（演示用验证码：123456）`);
+        }
+
+        // 显示用户协议
+        function showAgreement() {
+            alert('用户协议\n\n1. 用户应遵守社区规范\n2. 不得发布违法违规内容\n3. 保护他人隐私和权益\n4. 共建和谐邻里关系');
+        }
+
+        // 显示隐私政策
+        function showPrivacy() {
+            alert('隐私政策\n\n1. 我们严格保护用户隐私\n2. 个人信息仅用于服务提供\n3. 不会向第三方泄露信息\n4. 用户可随时管理个人信息');
+        }
+
+        // 输入框焦点效果
+        document.querySelectorAll('.input-field').forEach(field => {
+            field.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+
+            field.addEventListener('blur', function() {
+                this.parentElement.classList.remove('focused');
+            });
+
+            // 实时验证
+            field.addEventListener('input', function() {
+                if (this.classList.contains('error')) {
+                    this.classList.remove('error');
+                    const errorElement = this.parentElement.querySelector('.error-message');
+                    if (errorElement) {
+                        errorElement.textContent = '';
+                    }
+                }
+            });
+        });
+
+        // 表单提交
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleLogin();
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleRegister();
+        });
+
+        // 页面加载动画
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                document.body.style.transition = 'all 0.8s ease-out';
+                document.body.style.opacity = '1';
+                document.body.style.transform = 'translateY(0)';
+            }, 100);
+        });
+
+        // 键盘事件
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const activeElement = document.activeElement;
+                if (activeElement.classList.contains('input-field')) {
+                    handleLogin();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

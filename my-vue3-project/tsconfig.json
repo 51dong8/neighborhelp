@@ -1,0 +1,21 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.json",
+ "compilerOptions": {
+  "sourceMap": true,
+  "baseUrl": ".",
+  "paths": {
+    "@/*": ["./src/*"]
+  },
+  "lib": ["esnext", "dom"],
+  "types": ["@dcloudio/types"],
+
+  /* 核心修复：显式关闭旧选项并开启新选项 */
+  "preserveValueImports": false,
+  "importsNotUsedAsValues": "remove",
+  "verbatimModuleSyntax": true,
+  
+  /* 如果还是报错，加上这一行强制忽略版本警告 */
+  "ignoreDeprecations": "5.0"
+},
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 邻里帮帮 (NeighborHelp) - 社区互助全栈平台
 邻里帮帮 是一款基于 Spring Boot 3 和 Vue 3 (uni-app) 开发的社区互助平台。它旨在通过数字化的方式连接邻里，提供需求发布、订单匹配、积分奖励及智能社区服务，构建一个有温度的社区共享经济生态。
 
@@ -19,3 +20,14 @@ Spring Boot 3.4.1, Spring Security + JWT持久层MyBatis-Plus, MySQL 8.0
 缓存/中间件Redis, RestTemplate
 前端Vue 3, Vite, uni-app (跨平台开发)
 云服务阿里云 OSS (文件存储), 阿里云百炼 (AI), 百度 AI, 高德 API
+=======
+项目启动指南：
+
+环境准备：确保电脑已安装 JDK 17、Node.js 和 Docker。
+
+数据库：在根目录运行 docker-compose up -d 启动mysql和redis不需要额外下载，然后导入 neighbor-help/src/main/resources/db/schema.sql 脚本。
+
+后端：目录名为neighbor-help，用 IDEA 打开后端目录，待 Maven 依赖加载完成后运行 NeighborHelpApplication。
+
+前端：目录名为my-vue3-project，进入前端目录运行 npm install 安装依赖，再运行 npm run dev:h5直接在网页加载，建议按F12进入开发者或者网页页面右键检查然后调整左侧页面适合手机的尺寸
+>>>>>>> c38b89c (feat: 邻里帮帮全栈项目首次提交 (SpringBoot后端 + Vue3前端))

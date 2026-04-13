@@ -1,0 +1,220 @@
+{
+	"pages": [ 
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "邻里帮帮",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "邻里帮帮",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/request/request",
+			"style": {
+				"navigationBarTitleText": "发布需求",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/profile/profile",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/service-requests/service-requests",
+			"style": {
+				"navigationBarTitleText": "服务需求",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/service-detail/service-detail",
+			"style": {
+				"navigationBarTitleText": "服务详情",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/my-requests/my-requests",
+			"style": {
+				"navigationBarTitleText": "我的需求",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/my-orders/my-orders",
+			"style": {
+				"navigationBarTitleText": "我的订单",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/order-detail/order-detail",
+			"style": {
+				"navigationBarTitleText": "订单详情",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/request-detail/request-detail",
+			"style": {
+				"navigationBarTitleText": "需求详情",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/my-activities/my-activities",
+			"style": {
+				"navigationBarTitleText": "我的活动",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/notifications/notifications",
+			"style": {
+				"navigationBarTitleText": "通知",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "邻里帮帮"
+			}
+		},
+		{
+			"path": "pages/api-test",
+			"style": {
+				"navigationBarTitleText": "联调·API 测试"
+			}
+		},
+		{
+			"path": "pages/api-status",
+			"style": {
+				"navigationBarTitleText": "联调·API 状态"
+			}
+		},
+		{
+			"path": "pages/network-test",
+			"style": {
+				"navigationBarTitleText": "联调·网络"
+			}
+		},
+		{
+			"path": "pages/points-center/points-center",
+			"style": {
+				"navigationBarTitleText": "积分中心"
+			}
+		},
+		{
+			"path": "pages/settings/settings",
+			"style": {
+			  "navigationBarTitleText": "设置",
+			  "navigationBarBackgroundColor": "#ffffff",
+			  "navigationBarTextStyle": "black"
+			}
+		},
+		{
+		   "path": "pages/change-password/change-password",
+			"style": {
+			  "navigationBarTitleText": "修改密码",
+			  "navigationBarBackgroundColor": "#FFFFFF",
+			  "navigationBarTextStyle": "black"
+			}
+		  },
+		  {
+      "path": "pages/help/help",
+      "style": {
+        "navigationBarTitleText": "帮助中心",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/feedback/feedback",
+      "style": {
+        "navigationBarTitleText": "意见反馈",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/about/about",
+      "style": {
+        "navigationBarTitleText": "关于我们",
+        "navigationBarBackgroundColor": "#F5F7FA"
+      }
+    },
+	{
+		"path": "pages/user-agreement/user-agreement",
+		"style": {
+		  "navigationBarTitleText": "协议与政策",
+		  "navigationBarBackgroundColor": "#FFFFFF"
+		}
+	  },
+	  {
+		"path": "pages/bind-phone/bind-phone",
+		"style": {
+			"navigationBarTitleText": "绑定手机号",
+			"navigationBarBackgroundColor": "#FFFFFF",
+			"navigationBarTextStyle": "black"
+		}
+	},
+	{
+		"path": "pages/forgot-password/forgot-password",
+		"style": {
+			"navigationBarTitleText": "找回密码",
+			"navigationBarBackgroundColor": "#FFFFFF",
+			"navigationBarTextStyle": "black"
+		}
+	},
+	{
+		"path": "pages/assistant/assistant",
+		"style": {
+		  "navigationBarTitleText": "智能助手",
+		  "navigationBarBackgroundColor": "#F5F7FA"
+		}
+	  },
+	  {
+		"path": "pages/community-auth/community-auth",
+		"style": {
+		  "navigationBarTitleText": "小区实名认证",
+		  "navigationBarBackgroundColor": "#FFFFFF",
+		  "navigationBarTextStyle": "black"
+		}
+	  }
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "邻里帮帮",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#8D6E63",
+		"selectedColor": "#FF8F00",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "white",
+		"list": [
+			{
+				"pagePath": "pages/home/home",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/request/request",
+				"text": "需求"
+			},
+			{
+				"pagePath": "pages/profile/profile",
+				"text": "我的"
+			}
+		]
+	}
+}

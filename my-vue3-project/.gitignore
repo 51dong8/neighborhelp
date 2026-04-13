@@ -1,0 +1,41 @@
+# 依赖目录：绝对不能上传，否则 GitHub 仓库会极其臃肿
+node_modules/
+
+# 构建输出目录：这是编译后的代码，不需要版本控制
+dist/
+unpackage/
+bin/
+
+# 日志文件
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# 环境变量文件：【核心保护对象】
+# 包含你本地测试的 IP 地址、Key 等敏感信息
+.env
+.env.local
+.env.development
+.env.production
+.env.development.local
+.env.production.local
+
+# 系统及 IDE 配置文件
+.DS_Store
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 单元测试相关
+/test/unit/coverage/
+/test/e2e/reports/
+selenium-debug.log
+
+# HBuilderX 产生的临时文件
+.hbuilderx/

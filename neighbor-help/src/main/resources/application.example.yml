@@ -1,0 +1,132 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: neighbor-help
+  mail:
+    host: smtp.qq.com # 如果是163邮箱，这里是 smtp.163.com
+    username: your-email@qq.com # 替换为你的真实发件邮箱
+    password: your-smtp-auth-code # 填入开启 SMTP 服务后获取的“授权码”
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  
+  # 允许 Bean 定义覆盖
+  main:
+    allow-bean-definition-overriding: true
+
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 建议在本地保留 neighbor_help 库名，密码改为占位符
+    url: jdbc:mysql://localhost:3306/neighbor_help?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: your-mysql-password
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: # 如果有密码请填入
+      database: 0
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+  # Jackson配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+
+# MyBatis-Plus配置
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.neighborhelp.entity
+
+# JWT配置
+jwt:
+  # 默认密钥已改为通用占位符，生产环境请务必通过环境变量 JWT_SECRET 注入
+  secret: ${JWT_SECRET:your-default-secure-jwt-secret-key-change-me-in-production}
+  expiration: 604800000  # 7天
+  refresh-expiration: 2592000000  # 30天
+
+# SpringDoc OpenAPI配置
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  group-configs:
+    - group: 'default'
+      display-name: '邻里帮帮API'
+      paths-to-match: '/api/**'
+  cache:
+    disabled: true
+  model-converters:
+    pageable-converter:
+      enabled: false
+
+# 百度云服务配置 (语音识别/OCR)
+baidu:
+  speech:
+    app-id: your-baidu-app-id
+    api-key: your-baidu-api-key
+    secret-key: your-baidu-secret-key
+  ocr:
+    app-id: your-baidu-app-id
+    api-key: your-baidu-api-key
+    secret-key: your-baidu-secret-key
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.neighborhelp: info
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n"
+
+# 业务逻辑自定义配置
+neighborhelp:
+  order-timeout:
+    accept-unresponsive-minutes: 30
+    scan-interval-ms: 60000
+
+# 高德地图配置
+amap:
+  key: your-amap-web-service-key
+  url: "https://restapi.amap.com/v3/geocode/regeo"
+
+# 阿里云百炼 AI 配置 (通义千问)
+ai:
+  api-url: https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
+  api-key: your-dashscope-api-key
+  model: qwen-plus
+
+# 阿里云 OSS 配置
+aliyun:
+  oss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key-id: your-aliyun-access-key-id
+    access-key-secret: your-aliyun-access-key-secret
+    bucket-name: neighborhelp
